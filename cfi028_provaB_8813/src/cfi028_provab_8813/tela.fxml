@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="662.0" prefWidth="517.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="cfi028_provab_8813.telaController">
+<children>
+           <Label layoutX="38.0" layoutY="14.0" text="Venda de Ingressos" textFill="#4009e5">
+         <font>
+            <Font name="Arial Bold" size="49.0" />
+         </font>
+      </Label>
+
+      <Button fx:id="btnFechar" layoutX="535.0" layoutY="752.0" mnemonicParsing="false" onAction="#btnFecharClick" text="Fechar" />
+      <GridPane layoutX="124.0" layoutY="85.0" prefHeight="110.0" prefWidth="365.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField fx:id="txtNome" GridPane.columnIndex="1" />
+            <Label text="Nome" />
+            <Label text="Idade (anos)" GridPane.rowIndex="1" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Tipo Ingresso:" GridPane.rowIndex="2" />
+            <ComboBox fx:id="cbTipos" prefHeight="25.0" prefWidth="183.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="41.0" layoutY="242.0" prefHeight="43.0" prefWidth="504.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="173.0" minHeight="10.0" prefHeight="79.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <CheckBox fx:id="chkPipoca" mnemonicParsing="false" text="Pipoca " wrapText="true" />
+            <CheckBox fx:id="chkRefrigerante" mnemonicParsing="false" text="Refrigerante " wrapText="true" GridPane.columnIndex="1" />
+            <CheckBox fx:id="chkSuco" mnemonicParsing="false" text="Suco " wrapText="true" GridPane.columnIndex="2" />
+            <CheckBox fx:id="chkChocolates" mnemonicParsing="false" text="Chocolates/Doces " wrapText="true" GridPane.columnIndex="3" />
+         </children>
+      </GridPane>
+      <Button fx:id="btnCadastrar" layoutX="34.0" layoutY="382.0" mnemonicParsing="false" onAction="#btnCadastrarClick" prefHeight="25.0" prefWidth="548.0" text="Cadastrar" />
+      <ListView fx:id="lstVendas" layoutX="33.0" layoutY="445.0" prefHeight="200.0" prefWidth="548.0" />
+      <Label alignment="CENTER" graphicTextGap="10.0" layoutX="48.0" layoutY="195.0" prefHeight="43.0" prefWidth="504.0" style="-fx-border-color: #2749AA;" text="Adicionais" textFill="#756507" AnchorPane.bottomAnchor="559.0" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="195.0">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="50.0" layoutY="285.0" prefHeight="45.0" prefWidth="504.0" style="-fx-border-color: #2749AA;" text="Cadeiras/Assentos" textFill="#756507">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="rbcomum" layoutX="51.0" layoutY="341.0" mnemonicParsing="false" text="Cadeira Comum ">
+         <toggleGroup>
+            <ToggleGroup fx:id="tgCad" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="rbespecial" layoutX="231.0" layoutY="341.0" mnemonicParsing="false" text="Cadeira especial " toggleGroup="$tgCad" />
+      <RadioButton fx:id="rbluxo" layoutX="413.0" layoutY="341.0" mnemonicParsing="false" text="Cadeira luxo " toggleGroup="$tgCad" />
+      <Button fx:id="btnApagar" layoutX="33.0" layoutY="647.0" mnemonicParsing="false" onAction="#btnApagarClick" prefHeight="25.0" prefWidth="548.0" text="Apagar" />
+      <Button fx:id="btnTotal" layoutX="33.0" layoutY="678.0" mnemonicParsing="false" onAction="#btnCalcularTotalClick" prefHeight="25.0" prefWidth="548.0" text="Calcular Total" />
+      <Label layoutX="41.0" layoutY="718.0" />
+      <HBox layoutX="38.0" layoutY="413.0" prefHeight="82.0" prefWidth="333.0">
+         <children>
+            <Label text="Total a ser pago: " />
+            <Label fx:id="lblTotal" />
+         </children>
+      </HBox>
+      <Label layoutX="41.0" layoutY="424.0" />
+   </children>
+</AnchorPane>
