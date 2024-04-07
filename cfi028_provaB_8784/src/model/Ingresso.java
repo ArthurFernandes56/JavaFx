@@ -9,58 +9,58 @@ package model;
  * @author kakas
  */
 public class Ingresso {
-    String Nome;
-    String ingresso;
-    int idade;
-    double preco;
+    String nome;
+    String texto;
+    Integer idade;
+    Double preco;
 
     public Ingresso() {
     }
 
-    public Ingresso(String Nome, int idade,  String ingresso,  double preco) {
-        this.Nome = Nome;
-        this.ingresso = ingresso;
+    public Ingresso(String nome, String texto, Integer idade, Double preco) {
+        this.nome = nome;
+        this.texto = texto;
         this.idade = idade;
         this.preco = preco;
     }
 
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
-    public void setNome(String Nome) {
-        this.Nome = Nome;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getCadeira() {
-        return ingresso;
+    public String getTexto() {
+        return texto;
     }
 
-    public void setCadeira(String ingresso) {
-        this.ingresso = ingresso;
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 
-    public int getIdade() {
+    public Integer getIdade() {
         return idade;
     }
 
-    public void setIdade(int idade) {
+    public void setIdade(Integer idade) {
         this.idade = idade;
     }
 
-    public double getPreco() {
+    public Double getPreco() {
         return preco;
     }
 
-    public void setPreco(double preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
 
     @Override
     public String toString() {
-        return Nome +  ", idade:" + idade + ", ingresso:" + ingresso + ", Total:" + preco + '}';
+        return "Cliente: "+nome+  ", idade:" + idade + ", Total:" + preco+ "\nComprou: "+texto;
     }
-
-
     
-}
+    
+
+    }

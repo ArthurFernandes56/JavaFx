@@ -6,6 +6,7 @@ package cfi028_provab_8784;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.ToggleGroup;
 import model.Ingresso;
 
@@ -68,7 +70,10 @@ public class telaController implements Initializable {
     
     ObservableList <Ingresso> obsIngresso = FXCollections.observableArrayList();
     
-    double[] precoIngresso = {50.0,25.0,0.0};
+    Double[] precoIngresso = {50.0,25.0,0.0};
+    Double[] precoCadeira = {0.0,10.0,25.0};
+    @FXML
+    private Label lblTotal;
 
 
     
@@ -83,6 +88,17 @@ public class telaController implements Initializable {
     rbComum.selectedProperty().setValue(Boolean.TRUE);
     cbTipos.getSelectionModel().selectFirst();
     txtNome.requestFocus();
+    UnaryOperator<TextFormatter.Change> filtro = change -> {
+    String newText = change.getControlNewText();
+    if (newText.isEmpty() || newText.matches("-?[0-9]+")) {  
+    return change;
+   }
+    return null;
+   };
+  TextFormatter<String> textoFormatado = new TextFormatter<>(filtro); //perguntar ao toninho se é Tipo string por que o txt retorna o valor string.
+  txtIdade.setTextFormatter(textoFormatado);
+ 
+    
         
     }
 
@@ -103,8 +119,7 @@ public class telaController implements Initializable {
         rbComum.selectedProperty().setValue(Boolean.TRUE);
         rbEspecial.selectedProperty().setValue(Boolean.FALSE);
         rbLuxo.selectedProperty().setValue(Boolean.FALSE);
-        cbTipos.setValue("Inteira");
-        txtNome.requestFocus();
+        cbTipos.getSelectionModel().selectFirst();
           
     }
     
@@ -115,67 +130,79 @@ public class telaController implements Initializable {
 
     @FXML
     private void btnCadastrarClick(ActionEvent event) {
-        if(!cbTipos.getSelectionModel().isEmpty()){
-            int posicao = cbTipos.getSelectionModel().getSelectedIndex();
-            double preco = precoIngresso[posicao];
+        
+            int posicaoTipo = cbTipos.getSelectionModel().getSelectedIndex();
+            double preco = precoIngresso[posicaoTipo];
             RadioButton rbCadeiras = (RadioButton) tgCadeiras.getSelectedToggle();
-            String ingresso="";
+            int posicaoCadeira = (int) tgCadeiras.getToggles().indexOf(rbCadeiras);
+            preco+= precoCadeira[posicaoCadeira];
+            String texto="";
             String cadeira;
             String nome = txtNome.getText();
-            int idade = Integer.parseInt(txtIdade.getText());
-            if(nome.isEmpty()){
-                alerta("Verifique o nome digitado");
+            Integer idade = Integer.valueOf(txtIdade.getText());
+
+            if(txtNome.getText().isEmpty()){
+                alerta("Verifique o nome digitado!");
                 txtNome.requestFocus();
+            }else if(txtIdade.getText().isEmpty()||(idade<=0)){
+                alerta("Verifique a idade digitada!");
+                txtIdade.clear();
             }else{
-                ingresso = ingresso + cbTipos.getValue() + ",";
+               
+                texto = texto + cbTipos.getValue() + ",";
               
                if(chkChocolate.isSelected()){
-                   ingresso = ingresso + "Chocolate e Doces, ";
+                   texto = texto + "Chocolate e Doces, ";
                    preco+= 15.0;
                }
                if(chkPipoca.isSelected()){
-                   ingresso = ingresso + "Pipoca, ";
+                   texto = texto + "Pipoca, ";
                    preco+= 32.0;
                }
                if(chkRefri.isSelected()){
-                   ingresso = ingresso + "Refri, ";
+                   texto = texto + "Refri, ";
                    preco+= 20.0;
                }
                if(chkSuco.isSelected()){
-                   ingresso = ingresso+ "Suco, ";
+                   texto = texto+ "Suco, ";
                    preco+= 25.0;
                }
                
                cadeira = rbCadeiras.getText();
-               ingresso = ingresso + cadeira + ".";
-               
-               Ingresso i = new Ingresso(nome, idade, ingresso, preco);
+               texto = texto + cadeira + ".";
+                
+               Ingresso i = new Ingresso(nome, texto, idade, preco);
                obsIngresso.add(i);
                 System.out.println("aqui");
-               lblCadeira.setText("Cadeira: "+ cbTipos.getValue());
+               lblCadeira.setText("Selecionado: "+ rbCadeiras.getText());
+               lblValor.setText("Valor: "+preco);
                
                 
             }
-        }
+        
     }
 
     @FXML
-    private void btnApagarClick(ActionEvent event) {
+    private void btnApagarClick(ActionEvent event) {        //Perguntar ao toninho como reativar o buton 
         limpar();
         int posicao = lstVendas.getSelectionModel().getSelectedIndex();
         if(posicao >=0){
             obsIngresso.remove(posicao);
+        } else if(obsIngresso.isEmpty()){
+            btnApagar.setDisable(false);      
+        } else{
+            btnApagar.setDisable(true);
         }
 
     }
 
     @FXML
     private void btnTotalClick(ActionEvent event) {
-        double total=0.0;
+        Double total=0.0;
         for(Ingresso i:obsIngresso){
-            total= total+ i.getPreco();
+        total+=Double.valueOf(i.getPreco());
         }
-        lblValor.setText(" "+total);
+        lblTotal.setText("Fechamento do dia: "+total);
     }
     
 }
